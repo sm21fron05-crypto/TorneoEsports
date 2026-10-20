@@ -1,0 +1,14 @@
+@model Equipo
+@* Campos compartidos por Crear y Editar. *@
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="mb-3">
+    <label asp-for="NombreEquipo" class="form-label"></label>
+    <input asp-for="NombreEquipo" class="form-control" />
+    <span asp-validation-for="NombreEquipo" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Pais" class="form-label"></label>
+    <input asp-for="Pais" class="form-control" />
+    <span asp-validation-for="Pais" class="text-danger"></span>
+</div>
