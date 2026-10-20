@@ -1,0 +1,21 @@
+@model JugadorFormViewModel
+@* Campos compartidos por Crear y Editar. *@
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="mb-3">
+    <label asp-for="Nickname" class="form-label"></label>
+    <input asp-for="Nickname" class="form-control" />
+    <span asp-validation-for="Nickname" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="NombreReal" class="form-label"></label>
+    <input asp-for="NombreReal" class="form-control" />
+    <span asp-validation-for="NombreReal" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="EquipoID" class="form-label"></label>
+    <select asp-for="EquipoID" asp-items="Model.Equipos" class="form-select">
+        <option value="">-- Selecciona un equipo --</option>
+    </select>
+    <span asp-validation-for="EquipoID" class="text-danger"></span>
+</div>
