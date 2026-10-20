@@ -1,0 +1,30 @@
+@model InicioViewModel
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-5">Sistema de Gestión de un Torneo de E-Sports</h1>
+    <p class="lead">Administra equipos, jugadores, partidas, sedes y árbitros del torneo.</p>
+</div>
+
+<div class="row g-3 justify-content-center">
+    <div class="col-md-5">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <h2 class="card-title">@Model.TotalEquipos</h2>
+                <p class="card-text">Equipos registrados</p>
+                <a class="btn btn-primary" asp-controller="Equipos" asp-action="Index">Ver equipos</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <h2 class="card-title">@Model.TotalJugadores</h2>
+                <p class="card-text">Jugadores registrados</p>
+                <a class="btn btn-primary" asp-controller="Jugadores" asp-action="Index">Ver jugadores</a>
+            </div>
+        </div>
+    </div>
+</div>
