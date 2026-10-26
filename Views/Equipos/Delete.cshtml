@@ -1,0 +1,20 @@
+@model Equipo
+@{
+    ViewData["Title"] = "Eliminar equipo";
+}
+
+<h1 class="h3 mb-3">Eliminar equipo</h1>
+
+<div class="alert alert-warning">
+    ¿Seguro que deseas eliminar el equipo <strong>@Model.NombreEquipo</strong> (@Model.Pais)?
+    @if (Model.Jugadores.Any())
+    {
+        <div class="mt-2">Tiene <strong>@Model.Jugadores.Count</strong> jugador(es): no podrá eliminarse hasta que los elimines o reasignes.</div>
+    }
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="ID" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
