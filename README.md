@@ -10,7 +10,7 @@ Proyecto de la materia **Programación Web III**.
 |---|---|
 | Ronny Severiche Mariaca | `sm21fron05-crypto` |
 | Jorge Daniel Gutiérrez España | _(completar)_ |
-| Andrés Santiago Rojas Coria | _(completar)_ |
+| Andrés Santiago Rojas Coria | `santiprod1` |
 
 ## Requisitos
 
@@ -79,3 +79,8 @@ _(completar cuando estén implementados: nombre de cada reporte, filtros disponi
 
 1. **Reporte 1:** _pendiente_
 2. **Reporte 2:** _pendiente_
+
+### Aportes - Andrés Santiago Rojas Coria (GitHub: `santiprod1`)
+* CRUD de Sedes y Árbitros con validación restrictiva de borrado relacional.
+* CRUD de Partidas con validación de horarios, disponibilidad de recintos y cruce de equipos.
+* Reporte 2: Calendario de partidas. Permite filtrar dinámicamente por torneo, sede y fechas, incluyendo totalizadores estadísticos mediante agrupaciones LINQ.
