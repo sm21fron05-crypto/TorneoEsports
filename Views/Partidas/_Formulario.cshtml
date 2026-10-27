@@ -1,0 +1,47 @@
+﻿@model TorneoEsports.ViewModels.PartidaFormViewModel
+
+<div class="form-group mb-3">
+    <label asp-for="TorneoId" class="control-label"></label>
+    <select asp-for="TorneoId" class="form-control" asp-items="Model.Torneos">
+        <option value="">-- Seleccione un Torneo --</option>
+    </select>
+    <span asp-validation-for="TorneoId" class="text-danger"></span>
+</div>
+
+<div class="form-group mb-3">
+    <label asp-for="SedeId" class="control-label"></label>
+    <select asp-for="SedeId" class="form-control" asp-items="Model.Sedes">
+        <option value="">-- Seleccione una Sede --</option>
+    </select>
+    <span asp-validation-for="SedeId" class="text-danger"></span>
+</div>
+
+<div class="form-group mb-3">
+    <label asp-for="FechaHora" class="control-label"></label>
+    <input asp-for="FechaHora" type="datetime-local" class="form-control" />
+    <span asp-validation-for="FechaHora" class="text-danger"></span>
+</div>
+
+<div class="form-group mb-3">
+    <label asp-for="Equipo1Id" class="control-label"></label>
+    <select asp-for="Equipo1Id" class="form-control" asp-items="Model.Equipos">
+        <option value="">-- Seleccione el Equipo 1 --</option>
+    </select>
+    <span asp-validation-for="Equipo1Id" class="text-danger"></span>
+</div>
+
+<div class="form-group mb-3">
+    <label asp-for="Equipo2Id" class="control-label"></label>
+    <select asp-for="Equipo2Id" class="form-control" asp-items="Model.Equipos">
+        <option value="">-- Seleccione el Equipo 2 --</option>
+    </select>
+    <span asp-validation-for="Equipo2Id" class="text-danger"></span>
+</div>
+
+<div class="form-group mb-3">
+    <label asp-for="ArbitrosIds" class="control-label"></label>
+    <select asp-for="ArbitrosIds" class="form-control" asp-items="Model.Arbitros" multiple="multiple">
+    </select>
+    <span asp-validation-for="ArbitrosIds" class="text-danger"></span>
+    <small class="form-text text-muted">Mantenga presionado Ctrl (Windows) o Command (Mac) para seleccionar múltiples árbitros.</small>
+</div>
