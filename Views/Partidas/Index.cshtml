@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TorneoEsports.Models.Partida>
+@{
+    ViewData["Title"] = "Partidas Programadas";
+}
+
+<h2>Gestión de Partidas</h2>
+
+@if (TempData["Exito"] != null)
+{
+    <div class="alert alert-success">@TempData["Exito"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Programar Nueva Partida</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Torneo</th>
+            <th>Sede</th>
+            <th>Fecha y Hora</th>
+            <th>Equipos (Enfrentamiento)</th>
+            <th>Árbitros</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Torneo?.Nombre</td>
+                <td>@item.Sede?.Nombre</td>
+                <td>@item.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    @{
+                        var equipos = item.EnfrentamientoEquipoPartidas?.Select(e => e.Equipo?.Nombre).ToList() ?? new List<string>();
+                        var enfrentamiento = string.Join(" vs ", equipos);
+                    }
+                    @enfrentamiento
+                </td>
+                <td>
+                    @{
+                        var arbitros = item.Arbitros?.Select(a => $"{a.Nombre} {a.Apellido}").ToList() ?? new List<string>();
+                        var listaArbitros = string.Join(", ", arbitros);
+                    }
+                    @listaArbitros
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
