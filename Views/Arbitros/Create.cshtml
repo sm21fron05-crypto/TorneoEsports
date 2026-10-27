@@ -1,0 +1,19 @@
+﻿@model TorneoEsports.Models.Arbitro
+@{
+    ViewData["Title"] = "Registrar Árbitro";
+}
+
+<h2>Registrar Nuevo Árbitro</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            @Html.AntiForgeryToken()
+            <partial name="_Formulario" model="Model" />
+            <div class="form-group mt-3">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
