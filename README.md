@@ -10,7 +10,7 @@ Proyecto de la materia **Programación Web III**.
 |---|---|
 | Ronny Severiche Mariaca | `sm21fron05-crypto` |
 | Jorge Daniel Gutiérrez España | _(completar)_ |
-| Andrés Santiago Rojas Coria | _(completar)_ |
+| Andrés Santiago Rojas Coria | _(santiprod1)_ |
 
 ## Requisitos
 
