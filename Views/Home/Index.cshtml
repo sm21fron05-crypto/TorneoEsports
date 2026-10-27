@@ -1,3 +1,7 @@
+@*
+    VISTA: Inicio (Home/Index)
+    Modelo tipado fuertemente con InicioViewModel (trae contadores TotalEquipos y TotalJugadores).
+*@
 @model InicioViewModel
 @{
     ViewData["Title"] = "Inicio";
@@ -8,22 +12,27 @@
     <p class="lead">Administra equipos, jugadores, partidas, sedes y árbitros del torneo.</p>
 </div>
 
+@* Dashboard con tarjetas métricas (Bootstrap cards) *@
 <div class="row g-3 justify-content-center">
+    <!-- Tarjeta: Total de Equipos -->
     <div class="col-md-5">
-        <div class="card h-100 text-center">
+        <div class="card h-100 text-center shadow-sm">
             <div class="card-body">
-                <h2 class="card-title">@Model.TotalEquipos</h2>
-                <p class="card-text">Equipos registrados</p>
+                <h2 class="card-title text-primary display-4 fw-bold">@Model.TotalEquipos</h2>
+                <p class="card-text text-muted">Equipos registrados</p>
+                @* Tag Helpers: asp-controller y asp-action generan automáticamente la URL hacia /Equipos/Index *@
                 <a class="btn btn-primary" asp-controller="Equipos" asp-action="Index">Ver equipos</a>
             </div>
         </div>
     </div>
+
+    <!-- Tarjeta: Total de Jugadores -->
     <div class="col-md-5">
-        <div class="card h-100 text-center">
+        <div class="card h-100 text-center shadow-sm">
             <div class="card-body">
-                <h2 class="card-title">@Model.TotalJugadores</h2>
-                <p class="card-text">Jugadores registrados</p>
-                <a class="btn btn-primary" asp-controller="Jugadores" asp-action="Index">Ver jugadores</a>
+                <h2 class="card-title text-success display-4 fw-bold">@Model.TotalJugadores</h2>
+                <p class="card-text text-muted">Jugadores registrados</p>
+                <a class="btn btn-success" asp-controller="Jugadores" asp-action="Index">Ver jugadores</a>
             </div>
         </div>
     </div>

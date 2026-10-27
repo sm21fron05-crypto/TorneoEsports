@@ -1,3 +1,7 @@
+@*
+    VISTA: Equipos/Create.cshtml
+    Formulario para dar de alta un nuevo equipo.
+*@
 @model Equipo
 @{
     ViewData["Title"] = "Registrar equipo";
@@ -7,14 +11,18 @@
 
 <div class="row">
     <div class="col-md-6">
+        @* asp-action="Create" enviará una petición HTTP POST al método Create de EquiposController *@
         <form asp-action="Create">
+            @* Reutiliza la vista parcial _Formulario pasando el modelo *@
             <partial name="_Formulario" model="Model" />
+            
             <button type="submit" class="btn btn-primary">Guardar</button>
             <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 </div>
 
+@* Inyección de scripts de validación en el cliente (jQuery Unobtrusive Validation) *@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

@@ -1,3 +1,7 @@
+@*
+    VISTA: Jugadores/Create.cshtml
+    Formulario de registro de un nuevo jugador en un equipo.
+*@
 @model JugadorFormViewModel
 @{
     ViewData["Title"] = "Registrar jugador";
@@ -7,6 +11,7 @@
 
 <div class="row">
     <div class="col-md-6">
+        @* Petición HTTP POST hacia JugadoresController.Create(modelo) *@
         <form asp-action="Create">
             <partial name="_Formulario" model="Model" />
             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -15,6 +20,7 @@
     </div>
 </div>
 
+@* Activa validaciones del lado del cliente antes de enviar el formulario *@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

@@ -1,16 +1,23 @@
+@*
+    PLANTILLA BASE (LAYOUT PRINCIPAL)
+    Define el diseño común (Navbar, Footer, contenedor central y scripts) para todas las vistas.
+*@
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @* El título se compone dinámicamente con ViewData["Title"] definido en cada vista *@
     <title>@ViewData["Title"] - Torneo E-Sports</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
+        <!-- Menú de navegación principal con Bootstrap -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
             <div class="container">
+                @* Tag Helpers: asp-controller y asp-action resuelven rutas dinámicas *@
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">Torneo E-Sports</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
                         aria-controls="menuPrincipal" aria-expanded="false" aria-label="Mostrar u ocultar el menú">
@@ -36,7 +43,10 @@
 
     <div class="container">
         <main role="main" class="pb-3">
+            <!-- VISTA PARCIAL: Muestra alertas de éxito o error guardadas en TempData -->
             <partial name="_Mensajes" />
+
+            <!-- RENDER BODY: Aquí Razor inserta el contenido HTML específico de cada vista secundaria -->
             @RenderBody()
         </main>
     </div>
@@ -47,10 +57,12 @@
         </div>
     </footer>
 
+    <!-- Scripts globales de la aplicación -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
+    <!-- Sección opcional "Scripts": Permite a vistas hijas inyectar scripts específicos (ej. validaciones del lado del cliente) -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
