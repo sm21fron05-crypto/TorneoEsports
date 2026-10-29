@@ -1,0 +1,28 @@
+﻿@model TorneoEsports.ViewModels.PartidaFormViewModel
+@{
+    ViewData["Title"] = "Programar Partida";
+}
+
+<h2>Programar Nueva Partida</h2>
+<hr />
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <strong>Revise los errores:</strong>
+        <div asp-validation-summary="ModelOnly"></div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Create">
+            @Html.AntiForgeryToken()
+            <partial name="_Formulario" model="Model" />
+            <div class="form-group mt-3">
+                <input type="submit" value="Guardar Partida" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Volver al Listado</a>
+            </div>
+        </form>
+    </div>
+</div>
