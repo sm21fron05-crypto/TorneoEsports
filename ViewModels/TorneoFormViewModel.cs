@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TorneoEsports.ViewModels
 {
-    // Datos del formulario de Crear/Editar torneo, con la lista de equipos para la selección múltiple.
     public class TorneoFormViewModel
     {
         public int ID { get; set; }

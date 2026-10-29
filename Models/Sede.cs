@@ -10,8 +10,6 @@ namespace TorneoEsports.Models
         public string NombreSede { get; set; } = string.Empty;
 
         public string Ubicacion { get; set; } = string.Empty;
-
-        // 1:N -> una Sede aloja muchas Partidas
         public List<Partida> Partidas { get; set; } = new();
     }
 }

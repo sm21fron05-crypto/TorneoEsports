@@ -3,17 +3,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TorneoEsports.ViewModels
 {
-    // =========================================================================================
-    // VIEWMODEL: JugadorFormViewModel
-    // PROPÓSITO: Transportar los datos entre el formulario de la vista (Create/Edit) y el controlador.
-    // ¿POR QUÉ UN VIEWMODEL?:
-    // 1. Evita vulnerabilidades de sobreasignación (Overposting / Mass Assignment).
-    // 2. Incluye propiedades que no existen en la BD pero sí en la vista, como la lista de equipos
-    //    para el <select> desplegable (IEnumerable<SelectListItem>).
-    // =========================================================================================
     public class JugadorFormViewModel
     {
-        // Se utiliza principalmente en el Edit para saber qué registro actualizar; en Create es 0.
         public int ID { get; set; }
 
         [Display(Name = "Nickname")]
@@ -29,8 +20,6 @@ namespace TorneoEsports.ViewModels
         [Display(Name = "Equipo")]
         [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un equipo.")]
         public int EquipoID { get; set; }
-
-        // Lista de opciones para llenar el elemento HTML <select> en el formulario.
         public IEnumerable<SelectListItem> Equipos { get; set; } = new List<SelectListItem>();
     }
 }

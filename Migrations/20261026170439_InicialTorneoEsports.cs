@@ -1,14 +1,12 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace TorneoEsports.Migrations
 {
-    /// <inheritdoc />
     public partial class InicialTorneoEsports : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -219,8 +217,6 @@ namespace TorneoEsports.Migrations
                 table: "Partidas",
                 column: "TorneoID");
         }
-
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

@@ -1,7 +1,3 @@
-@*
-    VISTA: Equipos/Details.cshtml
-    Muestra la ficha técnica completa del equipo, torneos en los que participa y lista de jugadores.
-*@
 @model Equipo
 @{
     ViewData["Title"] = Model.NombreEquipo;
@@ -17,7 +13,6 @@
     <dd class="col-sm-9">
         @if (Model.Torneos.Any())
         {
-            @* Combina los nombres de los torneos separados por coma *@
             @string.Join(", ", Model.Torneos.Select(t => t.NombreTorneo))
         }
         else

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TorneoEsports.ViewModels
@@ -32,8 +32,6 @@ namespace TorneoEsports.ViewModels
         [Required(ErrorMessage = "Debe asignar al menos un árbitro.")]
         [Display(Name = "Árbitros")]
         public List<int> ArbitrosIds { get; set; } = new List<int>();
-
-        // Propiedades auxiliares para poblar los selects en la vista
         public IEnumerable<SelectListItem>? Torneos { get; set; }
         public IEnumerable<SelectListItem>? Sedes { get; set; }
         public IEnumerable<SelectListItem>? Equipos { get; set; }

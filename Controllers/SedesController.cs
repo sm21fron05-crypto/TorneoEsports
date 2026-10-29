@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TorneoEsports.Data;
 using TorneoEsports.Models;
@@ -13,20 +13,14 @@ namespace TorneoEsports.Controllers
         {
             _context = context;
         }
-
-        // GET: Sedes
         public async Task<IActionResult> Index()
         {
             return View(await _context.Sedes.OrderBy(s => s.NombreSede).ToListAsync());
         }
-
-        // GET: Sedes/Create
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Sedes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("NombreSede,Ubicacion")] Sede sede)
@@ -40,8 +34,6 @@ namespace TorneoEsports.Controllers
             }
             return View(sede);
         }
-
-        // POST: Sedes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

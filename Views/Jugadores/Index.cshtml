@@ -1,8 +1,3 @@
-@*
-    VISTA: Jugadores/Index.cshtml
-    Muestra el listado de jugadores con filtros combinados (búsqueda por texto y dropdown por equipo).
-    Modelo: JugadorListaViewModel (transporta los resultados, el estado de los filtros y el catálogo de equipos).
-*@
 @model JugadorListaViewModel
 @{
     ViewData["Title"] = "Jugadores";
@@ -13,16 +8,12 @@
     <a class="btn btn-primary" asp-action="Create">Registrar jugador</a>
 </div>
 
-@* Formulario de filtros mediante HTTP GET (los filtros viajan en la QueryString de la URL) *@
 <form method="get" class="row g-2 mb-3">
-    <!-- Filtro por texto: Nickname o Nombre Real -->
     <div class="col-sm-5 col-md-4">
         <input type="text" name="buscar" value="@Model.Buscar" class="form-control" placeholder="Buscar por nickname o nombre" />
     </div>
 
-    <!-- Filtro por desplegable: Equipos -->
     <div class="col-sm-4 col-md-3">
-        @* asp-items puebla automáticamente las opciones <option> desde Model.Equipos *@
         <select name="equipoId" class="form-select" asp-items="Model.Equipos">
             <option value="">Todos los equipos</option>
         </select>
@@ -34,7 +25,6 @@
     </div>
 </form>
 
-@* Comprobación si no hay resultados *@
 @if (!Model.Jugadores.Any())
 {
     <div class="alert alert-info">No hay jugadores para mostrar.</div>
@@ -56,7 +46,6 @@ else
                 <tr>
                     <td><strong>@jugador.Nickname</strong></td>
                     <td>@jugador.NombreReal</td>
-                    @* Navegación a la entidad padre Equipo (requiere .Include(j => j.Equipo) en el controlador) *@
                     <td>@jugador.Equipo?.NombreEquipo</td>
                     <td class="text-end">
                         <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-id="@jugador.ID">Ver</a>

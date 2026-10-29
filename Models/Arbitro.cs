@@ -8,8 +8,6 @@ namespace TorneoEsports.Models
 
         [Required]
         public string NombreArbitro { get; set; } = string.Empty;
-
-        // N:N -> un Arbitro arbitra muchas Partidas, sin atributos propios en la relación
         public List<Partida> Partidas { get; set; } = new();
     }
 }

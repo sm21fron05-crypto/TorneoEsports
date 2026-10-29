@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TorneoEsports.Models.Sede>
+@model IEnumerable<TorneoEsports.Models.Sede>
 @{
     ViewData["Title"] = "Sedes";
 }
@@ -24,7 +24,6 @@
                 <td>@item.NombreSede</td>
                 <td>@item.Ubicacion</td>
                 <td>
-                    <!-- Aquí agregarías Edit y Details según sea necesario -->
                     <form asp-action="Delete" asp-route-id="@item.ID" method="post" style="display:inline;">
                         @Html.AntiForgeryToken()
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta sede?');">Eliminar</button>

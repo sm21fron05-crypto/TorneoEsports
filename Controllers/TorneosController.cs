@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TorneoEsports.Data;
@@ -15,8 +15,6 @@ namespace TorneoEsports.Controllers
         {
             _context = context;
         }
-
-        // GET: Torneos?buscar=texto
         public async Task<IActionResult> Index(string? buscar)
         {
             var consulta = _context.Torneos
@@ -32,8 +30,6 @@ namespace TorneoEsports.Controllers
             ViewData["Buscar"] = buscar;
             return View(await consulta.OrderByDescending(t => t.FechaInicio).ToListAsync());
         }
-
-        // GET: Torneos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -49,8 +45,6 @@ namespace TorneoEsports.Controllers
 
             return View(torneo);
         }
-
-        // GET: Torneos/Create
         public async Task<IActionResult> Create()
         {
             var modelo = new TorneoFormViewModel
@@ -60,8 +54,6 @@ namespace TorneoEsports.Controllers
 
             return View(modelo);
         }
-
-        // POST: Torneos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TorneoFormViewModel modelo)
@@ -92,8 +84,6 @@ namespace TorneoEsports.Controllers
             TempData["Exito"] = $"El torneo \"{torneo.NombreTorneo}\" se registró correctamente.";
             return RedirectToAction(nameof(Index));
         }
-
-        // GET: Torneos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -117,8 +107,6 @@ namespace TorneoEsports.Controllers
 
             return View(modelo);
         }
-
-        // POST: Torneos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, TorneoFormViewModel modelo)
@@ -141,8 +129,6 @@ namespace TorneoEsports.Controllers
             torneo.NombreTorneo = modelo.NombreTorneo.Trim();
             torneo.FechaInicio = modelo.FechaInicio!.Value;
             torneo.FechaFin = modelo.FechaFin!.Value;
-
-            // Sincroniza la relación N:N: quita los equipos desmarcados y agrega los nuevos.
             torneo.Equipos.RemoveAll(e => !modelo.EquiposSeleccionados.Contains(e.ID));
             var actuales = torneo.Equipos.Select(e => e.ID).ToList();
             var nuevos = await _context.Equipos
@@ -155,8 +141,6 @@ namespace TorneoEsports.Controllers
             TempData["Exito"] = $"El torneo \"{torneo.NombreTorneo}\" se actualizó correctamente.";
             return RedirectToAction(nameof(Index));
         }
-
-        // GET: Torneos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -170,8 +154,6 @@ namespace TorneoEsports.Controllers
 
             return View(torneo);
         }
-
-        // POST: Torneos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -181,8 +163,6 @@ namespace TorneoEsports.Controllers
                 .FirstOrDefaultAsync(t => t.ID == id);
 
             if (torneo == null) return NotFound();
-
-            // Integridad: no se elimina un torneo que ya tiene partidas.
             if (torneo.Partidas.Count > 0)
             {
                 TempData["Error"] = $"No se puede eliminar \"{torneo.NombreTorneo}\" porque tiene {torneo.Partidas.Count} partida(s) registrada(s).";
@@ -195,8 +175,6 @@ namespace TorneoEsports.Controllers
             TempData["Exito"] = $"El torneo \"{torneo.NombreTorneo}\" se eliminó correctamente.";
             return RedirectToAction(nameof(Index));
         }
-
-        // Reglas de negocio: fecha fin >= fecha inicio, nombre único y equipos existentes.
         private async Task ValidarReglasAsync(TorneoFormViewModel modelo)
         {
             if (modelo.FechaInicio.HasValue && modelo.FechaFin.HasValue &&
