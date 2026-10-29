@@ -23,6 +23,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<TorneoEsportsContext>();
     db.Database.Migrate();
+    DbInitializer.Sembrar(db);
 }
 
 // 2. CONFIGURACIÓN DEL PIPELINE DE MIDDLEWARES (FLUJO DE PETICIONES HTTP)
