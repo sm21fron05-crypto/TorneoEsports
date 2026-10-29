@@ -17,7 +17,7 @@ namespace TorneoEsports.Controllers
         // GET: Sedes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Sedes.ToListAsync());
+            return View(await _context.Sedes.OrderBy(s => s.NombreSede).ToListAsync());
         }
 
         // GET: Sedes/Create
@@ -29,7 +29,7 @@ namespace TorneoEsports.Controllers
         // POST: Sedes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Ubicacion")] Sede sede)
+        public async Task<IActionResult> Create([Bind("NombreSede,Ubicacion")] Sede sede)
         {
             if (ModelState.IsValid)
             {
@@ -48,11 +48,11 @@ namespace TorneoEsports.Controllers
         {
             var sede = await _context.Sedes
                 .Include(s => s.Partidas)
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .FirstOrDefaultAsync(s => s.ID == id);
 
             if (sede == null) return NotFound();
 
-            if (sede.Partidas != null && sede.Partidas.Any())
+            if (sede.Partidas.Any())
             {
                 TempData["Error"] = "No se puede eliminar la sede porque tiene partidas asignadas.";
                 return RedirectToAction(nameof(Index));

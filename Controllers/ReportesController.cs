@@ -17,48 +17,45 @@ namespace TorneoEsports.Controllers
 
         public async Task<IActionResult> CalendarioPartidas(CalendarioPartidasViewModel model)
         {
-            // 1. Cargar desplegables
-            model.Torneos = new SelectList(await _context.Torneos.ToListAsync(), "Id", "Nombre");
-            model.Sedes = new SelectList(await _context.Sedes.ToListAsync(), "Id", "Nombre");
+            model.Torneos = new SelectList(await _context.Torneos.OrderBy(t => t.NombreTorneo).ToListAsync(),
+                "ID", "NombreTorneo", model.TorneoId);
+            model.Sedes = new SelectList(await _context.Sedes.OrderBy(s => s.NombreSede).ToListAsync(),
+                "ID", "NombreSede", model.SedeId);
 
-            // 2. Consulta base con relaciones
             var query = _context.Partidas
                 .Include(p => p.Torneo)
                 .Include(p => p.Sede)
                 .Include(p => p.Arbitros)
-                .Include(p => p.EnfrentamientoEquipoPartidas)
+                .Include(p => p.Enfrentamientos)
                     .ThenInclude(e => e.Equipo)
                 .AsQueryable();
 
-            // 3. Aplicar filtros solo si tienen valor
             if (model.TorneoId.HasValue)
-                query = query.Where(p => p.TorneoId == model.TorneoId.Value);
+                query = query.Where(p => p.TorneoID == model.TorneoId.Value);
 
             if (model.SedeId.HasValue)
-                query = query.Where(p => p.SedeId == model.SedeId.Value);
+                query = query.Where(p => p.SedeID == model.SedeId.Value);
 
             if (model.FechaInicio.HasValue)
-                query = query.Where(p => p.FechaHora >= model.FechaInicio.Value);
+                query = query.Where(p => p.FechaPartida >= model.FechaInicio.Value);
 
             if (model.FechaFin.HasValue)
-                query = query.Where(p => p.FechaHora <= model.FechaFin.Value);
+                query = query.Where(p => p.FechaPartida <= model.FechaFin.Value);
 
-            // 4. Ejecutar consulta
-            model.Partidas = await query.OrderBy(p => p.FechaHora).ToListAsync();
+            model.Partidas = await query
+                .OrderBy(p => p.FechaPartida)
+                .ThenBy(p => p.Hora)
+                .ToListAsync();
 
-            // 5. Agrupar datos para el resumen
-            if (model.Partidas.Any())
-            {
-                model.PartidasPorSede = model.Partidas
-                    .Where(p => p.Sede != null)
-                    .GroupBy(p => p.Sede.Nombre)
-                    .ToDictionary(g => g.Key, g => g.Count());
+            model.PartidasPorSede = model.Partidas
+                .Where(p => p.Sede != null)
+                .GroupBy(p => p.Sede!.NombreSede)
+                .ToDictionary(g => g.Key, g => g.Count());
 
-                model.PartidasPorArbitro = model.Partidas
-                    .SelectMany(p => p.Arbitros)
-                    .GroupBy(a => $"{a.Nombre} {a.Apellido}")
-                    .ToDictionary(g => g.Key, g => g.Count());
-            }
+            model.PartidasPorArbitro = model.Partidas
+                .SelectMany(p => p.Arbitros)
+                .GroupBy(a => a.NombreArbitro)
+                .ToDictionary(g => g.Key, g => g.Count());
 
             return View(model);
         }

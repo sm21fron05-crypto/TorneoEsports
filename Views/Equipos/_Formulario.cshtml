@@ -1,12 +1,23 @@
+@*
+    VISTA PARCIAL: _Formulario.cshtml (Equipos)
+    Contiene los campos de entrada reutilizables tanto para Crear como para Editar un Equipo.
+    Principio DRY (Don't Repeat Yourself).
+*@
 @model Equipo
-@* Campos compartidos por Crear y Editar. *@
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+@* Resumen de validaciones a nivel general del modelo (muestra errores no asociados a un campo específico) *@
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+<!-- Campo: Nombre del Equipo -->
 <div class="mb-3">
+    @* asp-for vincula el input y label a la propiedad del modelo y hereda tipos, nombres y validaciones *@
     <label asp-for="NombreEquipo" class="form-label"></label>
     <input asp-for="NombreEquipo" class="form-control" />
+    @* asp-validation-for renderiza el mensaje de error si la validación falla *@
     <span asp-validation-for="NombreEquipo" class="text-danger"></span>
 </div>
+
+<!-- Campo: País -->
 <div class="mb-3">
     <label asp-for="Pais" class="form-label"></label>
     <input asp-for="Pais" class="form-control" />

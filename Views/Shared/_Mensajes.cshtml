@@ -1,15 +1,23 @@
-@* Muestra las confirmaciones (TempData["Exito"]) y los errores (TempData["Error"]) de las operaciones. *@
+@*
+    VISTA PARCIAL: _Mensajes.cshtml
+    PROPÓSITO: Centralizar la visualización de alertas tipo Bootstrap tras una redirección (patrón Post-Redirect-Get).
+    TempData persiste datos entre la petición POST y la siguiente petición GET (después del redirect), y se borra al leerse.
+*@
+
+@* Mensaje de Éxito (Verde): Operaciones Create, Edit o Delete exitosas *@
 @if (TempData["Exito"] is string exito)
 {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @exito
+    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+        <strong>¡Éxito!</strong> @exito
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
     </div>
 }
+
+@* Mensaje de Error (Rojo): Bloqueos de integridad (ej. no se puede borrar un equipo con jugadores) *@
 @if (TempData["Error"] is string error)
 {
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        @error
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+        <strong>¡Atención!</strong> @error
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
     </div>
 }

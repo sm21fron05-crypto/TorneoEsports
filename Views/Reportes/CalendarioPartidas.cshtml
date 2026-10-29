@@ -1,0 +1,93 @@
+@model TorneoEsports.ViewModels.CalendarioPartidasViewModel
+@{
+    ViewData["Title"] = "Calendario de Partidas";
+}
+
+<h2>Reporte: Calendario de Partidas</h2>
+<p class="text-muted">Filtra por torneo, sede y rango de fechas. Todos los filtros son opcionales.</p>
+
+<form asp-action="CalendarioPartidas" method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label asp-for="TorneoId" class="form-label">Torneo</label>
+        <select asp-for="TorneoId" class="form-select" asp-items="Model.Torneos">
+            <option value="">-- Todos --</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="SedeId" class="form-label">Sede</label>
+        <select asp-for="SedeId" class="form-select" asp-items="Model.Sedes">
+            <option value="">-- Todas --</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label asp-for="FechaInicio" class="form-label">Desde</label>
+        <input asp-for="FechaInicio" type="date" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <label asp-for="FechaFin" class="form-label">Hasta</label>
+        <input asp-for="FechaFin" type="date" class="form-control" />
+    </div>
+    <div class="col-md-2 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <a asp-action="CalendarioPartidas" class="btn btn-secondary">Limpiar</a>
+    </div>
+</form>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card"><div class="card-body">
+            <h6 class="card-subtitle text-muted">Total de partidas</h6>
+            <p class="display-6 mb-0">@Model.TotalPartidas</p>
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card"><div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Partidas por sede</h6>
+            @if (Model.PartidasPorSede.Any())
+            {
+                <ul class="mb-0">@foreach (var par in Model.PartidasPorSede)
+                {
+                    <li>@par.Key: <strong>@par.Value</strong></li>
+                }</ul>
+            }
+            else { <span class="text-muted">Sin datos</span> }
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card"><div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Partidas por árbitro</h6>
+            @if (Model.PartidasPorArbitro.Any())
+            {
+                <ul class="mb-0">@foreach (var par in Model.PartidasPorArbitro)
+                {
+                    <li>@par.Key: <strong>@par.Value</strong></li>
+                }</ul>
+            }
+            else { <span class="text-muted">Sin datos</span> }
+        </div></div>
+    </div>
+</div>
+
+@if (!Model.Partidas.Any())
+{
+    <div class="alert alert-info">No hay partidas que coincidan con los filtros seleccionados.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead><tr><th>Fecha</th><th>Hora</th><th>Torneo</th><th>Sede</th><th>Equipos</th><th>Árbitros</th></tr></thead>
+        <tbody>
+        @foreach (var item in Model.Partidas)
+        {
+            <tr>
+                <td>@item.FechaPartida.ToString("dd/MM/yyyy")</td>
+                <td>@item.Hora.ToString("HH:mm")</td>
+                <td>@item.Torneo?.NombreTorneo</td>
+                <td>@item.Sede?.NombreSede</td>
+                <td>@string.Join(" vs ", item.Enfrentamientos.Select(e => e.Equipo?.NombreEquipo))</td>
+                <td>@string.Join(", ", item.Arbitros.Select(a => a.NombreArbitro))</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

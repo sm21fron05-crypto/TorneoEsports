@@ -1,3 +1,7 @@
+@*
+    VISTA: Equipos/Edit.cshtml
+    Formulario para modificar datos de un equipo existente.
+*@
 @model Equipo
 @{
     ViewData["Title"] = "Editar equipo";
@@ -7,9 +11,13 @@
 
 <div class="row">
     <div class="col-md-6">
+        @* Petición HTTP POST hacia EquiposController.Edit(id, equipo) *@
         <form asp-action="Edit">
+            @* Campo oculto (hidden) con la Clave Primaria para que viaja en el POST *@
             <input type="hidden" asp-for="ID" />
+            
             <partial name="_Formulario" model="Model" />
+            
             <button type="submit" class="btn btn-primary">Guardar cambios</button>
             <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
         </form>
