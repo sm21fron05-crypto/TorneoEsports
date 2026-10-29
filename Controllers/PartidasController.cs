@@ -22,8 +22,10 @@ namespace TorneoEsports.Controllers
                 .Include(p => p.Torneo)
                 .Include(p => p.Sede)
                 .Include(p => p.Arbitros)
-                .Include(p => p.EnfrentamientoEquipoPartidas)
+                .Include(p => p.Enfrentamientos)
                     .ThenInclude(e => e.Equipo)
+                .OrderBy(p => p.FechaPartida)
+                .ThenBy(p => p.Hora)
                 .ToListAsync();
             return View(partidas);
         }
@@ -39,51 +41,59 @@ namespace TorneoEsports.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PartidaFormViewModel model)
         {
-            if (model.Equipo1Id == model.Equipo2Id)
+            if (model.Equipo1Id != 0 && model.Equipo1Id == model.Equipo2Id)
             {
                 ModelState.AddModelError(string.Empty, "Los dos equipos deben ser distintos.");
             }
 
-            var torneo = await _context.Torneos.FindAsync(model.TorneoId);
-            if (torneo != null && (model.FechaHora < torneo.FechaInicio || model.FechaHora > torneo.FechaFin))
+            if (model.ArbitrosIds == null || !model.ArbitrosIds.Any())
             {
-                ModelState.AddModelError("FechaHora", "La fecha debe estar entre FechaInicio y FechaFin del torneo.");
+                ModelState.AddModelError(nameof(model.ArbitrosIds), "Debe asignar al menos un árbitro.");
+            }
+
+            var torneo = await _context.Torneos.FindAsync(model.TorneoId);
+            if (torneo != null && (model.FechaPartida < torneo.FechaInicio || model.FechaPartida > torneo.FechaFin))
+            {
+                ModelState.AddModelError(nameof(model.FechaPartida),
+                    $"La fecha debe estar entre {torneo.FechaInicio:dd/MM/yyyy} y {torneo.FechaFin:dd/MM/yyyy} (fechas del torneo).");
             }
 
             bool sedeOcupada = await _context.Partidas
-                .AnyAsync(p => p.SedeId == model.SedeId && p.FechaHora == model.FechaHora);
+                .AnyAsync(p => p.SedeID == model.SedeId
+                            && p.FechaPartida == model.FechaPartida
+                            && p.Hora == model.Hora);
             if (sedeOcupada)
             {
-                ModelState.AddModelError("SedeId", "Una sede no puede tener dos partidas a la misma fecha y hora.");
+                ModelState.AddModelError(nameof(model.SedeId), "Esa sede ya tiene una partida a la misma fecha y hora.");
             }
 
             if (model.ArbitrosIds != null && model.ArbitrosIds.Any())
             {
-                foreach (var arbitroId in model.ArbitrosIds)
+                var ids = model.ArbitrosIds;
+                bool arbitroOcupado = await _context.Partidas
+                    .AnyAsync(p => p.FechaPartida == model.FechaPartida
+                                && p.Hora == model.Hora
+                                && p.Arbitros.Any(a => ids.Contains(a.ID)));
+                if (arbitroOcupado)
                 {
-                    bool arbitroOcupado = await _context.Partidas
-                        .Include(p => p.Arbitros)
-                        .AnyAsync(p => p.FechaHora == model.FechaHora && p.Arbitros.Any(a => a.Id == arbitroId));
-                    if (arbitroOcupado)
-                    {
-                        ModelState.AddModelError("ArbitrosIds", "Un árbitro no puede estar en dos partidas a la misma fecha y hora.");
-                        break;
-                    }
+                    ModelState.AddModelError(nameof(model.ArbitrosIds), "Un árbitro seleccionado ya está en otra partida a la misma fecha y hora.");
                 }
             }
 
             if (ModelState.IsValid)
             {
+                var ids = model.ArbitrosIds!;
                 var partida = new Partida
                 {
-                    TorneoId = model.TorneoId,
-                    SedeId = model.SedeId,
-                    FechaHora = model.FechaHora,
-                    Arbitros = await _context.Arbitros.Where(a => model.ArbitrosIds.Contains(a.Id)).ToListAsync(),
-                    EnfrentamientoEquipoPartidas = new List<EnfrentamientoEquipoPartida>
+                    TorneoID = model.TorneoId,
+                    SedeID = model.SedeId,
+                    FechaPartida = model.FechaPartida,
+                    Hora = model.Hora,
+                    Arbitros = await _context.Arbitros.Where(a => ids.Contains(a.ID)).ToListAsync(),
+                    Enfrentamientos = new List<EnfrentamientoEquipoPartida>
                     {
-                        new EnfrentamientoEquipoPartida { EquipoId = model.Equipo1Id, Resultado = null },
-                        new EnfrentamientoEquipoPartida { EquipoId = model.Equipo2Id, Resultado = null }
+                        new EnfrentamientoEquipoPartida { EquipoID = model.Equipo1Id, Resultado = null },
+                        new EnfrentamientoEquipoPartida { EquipoID = model.Equipo2Id, Resultado = null }
                     }
                 };
 
@@ -99,10 +109,10 @@ namespace TorneoEsports.Controllers
 
         private void CargarListasDesplegables(PartidaFormViewModel model)
         {
-            model.Torneos = new SelectList(_context.Torneos, "Id", "Nombre");
-            model.Sedes = new SelectList(_context.Sedes, "Id", "Nombre");
-            model.Equipos = new SelectList(_context.Equipos, "Id", "Nombre");
-            model.Arbitros = new MultiSelectList(_context.Arbitros, "Id", "Nombre");
+            model.Torneos = new SelectList(_context.Torneos.OrderBy(t => t.NombreTorneo), "ID", "NombreTorneo", model.TorneoId);
+            model.Sedes = new SelectList(_context.Sedes.OrderBy(s => s.NombreSede), "ID", "NombreSede", model.SedeId);
+            model.Equipos = new SelectList(_context.Equipos.OrderBy(e => e.NombreEquipo), "ID", "NombreEquipo");
+            model.Arbitros = new MultiSelectList(_context.Arbitros.OrderBy(a => a.NombreArbitro), "ID", "NombreArbitro", model.ArbitrosIds);
         }
     }
 }

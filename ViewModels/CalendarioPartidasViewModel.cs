@@ -5,11 +5,11 @@ namespace TorneoEsports.ViewModels
 {
     public class CalendarioPartidasViewModel
     {
-        // Campos de filtro
+        // Filtros opcionales
         public int? TorneoId { get; set; }
         public int? SedeId { get; set; }
-        public DateTime? FechaInicio { get; set; }
-        public DateTime? FechaFin { get; set; }
+        public DateOnly? FechaInicio { get; set; }
+        public DateOnly? FechaFin { get; set; }
 
         // Listas para poblar los selects
         public IEnumerable<SelectListItem>? Torneos { get; set; }

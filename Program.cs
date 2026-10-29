@@ -19,6 +19,12 @@ builder.Services.AddDbContext<TorneoEsportsContext>(options =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<TorneoEsportsContext>();
+    db.Database.Migrate();
+}
+
 // 2. CONFIGURACIÓN DEL PIPELINE DE MIDDLEWARES (FLUJO DE PETICIONES HTTP)
 // -----------------------------------------------------------------------------
 if (!app.Environment.IsDevelopment())

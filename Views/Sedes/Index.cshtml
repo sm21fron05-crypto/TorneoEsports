@@ -5,15 +5,6 @@
 
 <h2>Gestión de Sedes</h2>
 
-@if (TempData["Exito"] != null)
-{
-    <div class="alert alert-success">@TempData["Exito"]</div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
-
 <p>
     <a asp-action="Create" class="btn btn-primary">Registrar Nueva Sede</a>
 </p>
@@ -30,11 +21,11 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Nombre</td>
+                <td>@item.NombreSede</td>
                 <td>@item.Ubicacion</td>
                 <td>
                     <!-- Aquí agregarías Edit y Details según sea necesario -->
-                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;">
+                    <form asp-action="Delete" asp-route-id="@item.ID" method="post" style="display:inline;">
                         @Html.AntiForgeryToken()
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta sede?');">Eliminar</button>
                     </form>

@@ -16,7 +16,7 @@ namespace TorneoEsports.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Arbitros.ToListAsync());
+            return View(await _context.Arbitros.OrderBy(a => a.NombreArbitro).ToListAsync());
         }
 
         public IActionResult Create()
@@ -26,7 +26,7 @@ namespace TorneoEsports.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido")] Arbitro arbitro)
+        public async Task<IActionResult> Create([Bind("NombreArbitro")] Arbitro arbitro)
         {
             if (ModelState.IsValid)
             {
@@ -42,14 +42,13 @@ namespace TorneoEsports.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // Asumiendo que la propiedad de navegación N:N en el modelo se llama Partidas
             var arbitro = await _context.Arbitros
                 .Include(a => a.Partidas)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.ID == id);
 
             if (arbitro == null) return NotFound();
 
-            if (arbitro.Partidas != null && arbitro.Partidas.Any())
+            if (arbitro.Partidas.Any())
             {
                 TempData["Error"] = "No se puede eliminar el árbitro porque tiene partidas asignadas.";
                 return RedirectToAction(nameof(Index));

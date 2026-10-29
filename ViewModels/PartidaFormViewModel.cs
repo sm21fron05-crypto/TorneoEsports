@@ -5,8 +5,6 @@ namespace TorneoEsports.ViewModels
 {
     public class PartidaFormViewModel
     {
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "Seleccione un torneo.")]
         [Display(Name = "Torneo")]
         public int TorneoId { get; set; }
@@ -15,9 +13,13 @@ namespace TorneoEsports.ViewModels
         [Display(Name = "Sede")]
         public int SedeId { get; set; }
 
-        [Required(ErrorMessage = "La fecha y hora son obligatorias.")]
-        [Display(Name = "Fecha y Hora")]
-        public DateTime FechaHora { get; set; }
+        [Required(ErrorMessage = "La fecha es obligatoria.")]
+        [Display(Name = "Fecha de la partida")]
+        public DateOnly FechaPartida { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+
+        [Required(ErrorMessage = "La hora es obligatoria.")]
+        [Display(Name = "Hora")]
+        public TimeOnly Hora { get; set; } = new(10, 0);
 
         [Required(ErrorMessage = "Seleccione el primer equipo.")]
         [Display(Name = "Equipo 1")]

@@ -2,7 +2,7 @@
 
 namespace TorneoEsports.Controllers
 {
-    public class ResultadosControles : Controller
+    public class ResultadosController : Controller
     {
         public IActionResult Index()
         {
