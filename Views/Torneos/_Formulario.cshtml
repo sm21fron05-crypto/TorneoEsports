@@ -1,0 +1,28 @@
+﻿using TorneoEsports.ViewModels.TorneoFormViewModel;
+@model TorneoFormViewModel
+@* Campos compartidos por Crear y Editar. *@
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="mb-3">
+    <label asp-for="NombreTorneo" class="form-label"></label>
+    <input asp-for="NombreTorneo" class="form-control" />
+    <span asp-validation-for="NombreTorneo" class="text-danger"></span>
+</div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="FechaInicio" class="form-label"></label>
+        <input asp-for="FechaInicio" type="date" class="form-control" />
+        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label asp-for="FechaFin" class="form-label"></label>
+        <input asp-for="FechaFin" type="date" class="form-control" />
+        <span asp-validation-for="FechaFin" class="text-danger"></span>
+    </div>
+</div>
+<div class="mb-3">
+    <label asp-for="EquiposSeleccionados" class="form-label"></label>
+    <select asp-for="EquiposSeleccionados" asp-items="Model.Equipos" class="form-select" multiple size="8"></select>
+    <div class="form-text">Mantén presionada la tecla Ctrl para seleccionar varios equipos.</div>
+    <span asp-validation-for="EquiposSeleccionados" class="text-danger"></span>
+</div>
